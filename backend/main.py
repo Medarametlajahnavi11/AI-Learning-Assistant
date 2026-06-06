@@ -2,10 +2,10 @@ from fastapi import FastAPI, Security
 from fastapi.middleware.cors import CORSMiddleware
 from slowapi.middleware import SlowAPIMiddleware
 
-from app.app.api.v1.router import api_router
-from app.app.core.config import settings
-from app.app.core.rate_limit import limiter
-from app.app.core.security import get_current_user
+from app.api.v1.router import api_router
+from app.core.config import settings
+from app.core.rate_limit import limiter
+from app.core.security import get_current_user
 
 app = FastAPI(title=settings.app_name)
 app.state.limiter = limiter
