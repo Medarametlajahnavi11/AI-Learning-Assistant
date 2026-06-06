@@ -2,11 +2,10 @@ import uuid
 
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 
-from app.core.config import settings
-from app.core.security import CurrentUser, require_user
-from app.db.supabase_client import get_supabase_admin
-from app.schemas.document import DocumentResponse
-from app.services.rag.indexing_service import IndexingService
+from app.app.core.config import settings
+from app.app.core.security import CurrentUser, require_user
+from app.app.db.supabase_client import get_supabase_admin
+from app.app.services.rag.indexing_service import IndexingService
 
 router = APIRouter(prefix="/documents", tags=["documents"])
 supabase = get_supabase_admin()

@@ -1,6 +1,6 @@
 from typing import Any
 
-from app.db.supabase_client import get_supabase_admin
+from app.app.db.supabase_client import get_supabase_admin
 
 
 class RetrievalService:

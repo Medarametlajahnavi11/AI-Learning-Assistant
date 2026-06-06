@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
 
-from app.core.security import require_user
-from app.db.supabase_client import get_supabase_admin
-from app.schemas.profile import ProfileResponse, ProfileUpdatePayload
+from app.app.core.security import CurrentUser, require_user
+from app.app.db.supabase_client import get_supabase_admin
+from app.app.schemas.profile import ProfileResponse, ProfileUpdatePayload
 
 router = APIRouter(prefix="/profile", tags=["profile"])
 supabase = get_supabase_admin()
