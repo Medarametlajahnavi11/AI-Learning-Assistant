@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: 34 50% 98%;
+  --fg: 150 25% 14%;
+  --card: 0 0% 100%;
+  --border: 154 26% 85%;
+  --accent: 168 74% 31%;
+  --success: 164 80% 33%;
+  --warning: 32 87% 55%;
+}
+
+.dark {
+  --bg: 160 15% 8%;
+  --fg: 153 35% 94%;
+  --card: 160 16% 12%;
+  --border: 156 14% 28%;
+  --accent: 168 80% 42%;
+  --success: 164 88% 45%;
+  --warning: 32 87% 58%;
+}
+
+body {
+  margin: 0;
+  font-family: "IBM Plex Sans", sans-serif;
+  color: hsl(var(--fg));
+  background:
+    radial-gradient(circle at 20% 20%, rgba(24, 177, 143, 0.2), transparent 35%),
+    radial-gradient(circle at 80% 5%, rgba(240, 184, 67, 0.18), transparent 30%),
+    hsl(var(--bg));
+  min-height: 100vh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.glass {
+  background: color-mix(in oklab, white 75%, transparent);
+  border: 1px solid hsl(var(--border));
+  backdrop-filter: blur(10px);
+}
+
+.dark .glass {
+  background: color-mix(in oklab, black 50%, transparent);
+}
