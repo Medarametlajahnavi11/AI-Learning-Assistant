@@ -10,9 +10,12 @@ from app.app.core.security import get_current_user
 app = FastAPI(title=settings.app_name)
 app.state.limiter = limiter
 app.add_middleware(SlowAPIMiddleware)
+# Configure CORS
+cors_origins = [o.strip() for o in settings.cors_origins.split(",") if o.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[o.strip() for o in settings.cors_origins.split(",") if o.strip()],
+    allow_origins=cors_origins if settings.app_env == "production" else ["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
