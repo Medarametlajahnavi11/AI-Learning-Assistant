@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 import { AppShell } from "@/components/layout/app-shell";
@@ -10,7 +11,7 @@ import { HistoryPage } from "@/pages/history";
 import { ProfilePage } from "@/pages/profile";
 import { useAuthStore } from "@/store/auth-store";
 
-function Protected({ children }: { children: JSX.Element }) {
+function Protected({ children }: { children: ReactNode }) {
   const token = useAuthStore((s) => s.token);
   if (!token) return <Navigate to="/login" replace />;
   return children;
