@@ -3,7 +3,7 @@ from typing import List
 from huggingface_hub import InferenceClient
 from openai import AsyncOpenAI
 
-from app.app.core.config import settings
+from app.core.config import settings
 
 
 class EmbeddingService:

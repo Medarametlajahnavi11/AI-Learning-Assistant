@@ -2,21 +2,36 @@ from fastapi import FastAPI, Security
 from fastapi.middleware.cors import CORSMiddleware
 from slowapi.middleware import SlowAPIMiddleware
 
-from app.app.api.v1.router import api_router
-from app.app.core.config import settings
-from app.app.core.rate_limit import limiter
-from app.app.core.security import get_current_user
+from app.api.v1.router import api_router
+from app.core.config import settings
+from app.core.rate_limit import limiter
+from app.core.security import get_current_user
 
 app = FastAPI(title=settings.app_name)
-app.state.limiter = limiter
-app.add_middleware(SlowAPIMiddleware)
+
+# Configure CORS
+cors_origins = [o.strip() for o in settings.cors_origins.split(",") if o.strip()]
+
+# Add Vercel and local origins explicitly
+extra_origins = [
+    "https://ai-learning-assistant-zeta-five.vercel.app",
+    "http://localhost:5173",
+    "http://localhost:3000"
+]
+for origin in extra_origins:
+    if origin not in cors_origins:
+        cors_origins.append(origin)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[o.strip() for o in settings.cors_origins.split(",") if o.strip()],
+    allow_origins=cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.state.limiter = limiter
+app.add_middleware(SlowAPIMiddleware)
 
 
 @app.get("/health")

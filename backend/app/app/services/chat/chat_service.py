@@ -3,11 +3,11 @@ from datetime import date
 
 from openai import AsyncOpenAI
 
-from app.app.core.config import settings
-from app.app.db.supabase_client import get_supabase_admin
-from app.app.services.chat.prompt_builder import build_system_prompt
-from app.app.services.rag.embedding_service import EmbeddingService
-from app.app.services.rag.retrieval_service import RetrievalService
+from app.core.config import settings
+from app.db.supabase_client import get_supabase_admin
+from app.services.chat.prompt_builder import build_system_prompt
+from app.services.rag.embedding_service import EmbeddingService
+from app.services.rag.retrieval_service import RetrievalService
 
 
 class ChatService:

@@ -1,6 +1,6 @@
 from supabase import Client, create_client
 
-from app.app.core.config import settings
+from app.core.config import settings
 
 
 def get_supabase_admin() -> Client:

@@ -7,10 +7,10 @@ import bleach
 from fastapi import APIRouter, Depends
 from fastapi.responses import StreamingResponse
 
-from app.app.core.security import CurrentUser, require_user
-from app.app.db.supabase_client import get_supabase_admin
-from app.app.schemas.chat import ChatRequest, CreateConversationRequest
-from app.app.services.chat.chat_service import ChatService
+from app.core.security import CurrentUser, require_user
+from app.db.supabase_client import get_supabase_admin
+from app.schemas.chat import ChatRequest, CreateConversationRequest
+from app.services.chat.chat_service import ChatService
 
 router = APIRouter(prefix="/chat", tags=["chat"])
 supabase = get_supabase_admin()

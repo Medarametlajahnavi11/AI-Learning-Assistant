@@ -11,7 +11,7 @@ from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.hazmat.primitives.serialization import load_pem_public_key
 from cryptography.hazmat.backends import default_backend
 
-from app.app.core.config import settings
+from app.core.config import settings
 
 bearer_scheme = HTTPBearer(auto_error=False)
 
