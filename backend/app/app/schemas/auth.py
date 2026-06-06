@@ -1,6 +1,6 @@
 from pydantic import BaseModel, EmailStr, Field
 
-from app.utils.enums import EXPLANATION_STYLES, LEARNING_LEVELS, LEARNING_MODES
+from app.app.utils.enums import EXPLANATION_STYLES, LEARNING_LEVELS, LEARNING_MODES
 
 
 class SignUpStep1(BaseModel):

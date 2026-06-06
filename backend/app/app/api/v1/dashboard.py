@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 
-from app.core.security import CurrentUser, require_user
-from app.db.supabase_client import get_supabase_admin
+from app.app.core.security import CurrentUser, require_user
+from app.app.db.supabase_client import get_supabase_admin
 
 router = APIRouter(prefix="/dashboard", tags=["dashboard"])
 supabase = get_supabase_admin()

@@ -1,7 +1,7 @@
-from app.db.supabase_client import get_supabase_admin
-from app.services.rag.embedding_service import EmbeddingService
-from app.services.rag.document_parser import parse_document
-from app.utils.text import chunk_text
+from app.app.db.supabase_client import get_supabase_admin
+from app.app.services.rag.embedding_service import EmbeddingService
+from app.app.services.rag.document_parser import parse_document
+from app.app.utils.text import chunk_text
 
 
 class IndexingService:
