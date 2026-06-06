@@ -8,18 +8,26 @@ from app.app.core.rate_limit import limiter
 from app.app.core.security import get_current_user
 
 app = FastAPI(title=settings.app_name)
-app.state.limiter = limiter
-app.add_middleware(SlowAPIMiddleware)
-# Configure CORS
+
+# Configure CORS - Must be added BEFORE other middleware
 cors_origins = [o.strip() for o in settings.cors_origins.split(",") if o.strip()]
+if settings.app_env != "production":
+    # Add common local dev origins
+    if "http://localhost:5173" not in cors_origins:
+        cors_origins.append("http://localhost:5173")
+    if "http://localhost:3000" not in cors_origins:
+        cors_origins.append("http://localhost:3000")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=cors_origins if settings.app_env == "production" else ["*"],
+    allow_origins=cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.state.limiter = limiter
+app.add_middleware(SlowAPIMiddleware)
 
 
 @app.get("/health")
