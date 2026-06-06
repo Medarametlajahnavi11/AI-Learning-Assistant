@@ -9,14 +9,18 @@ from app.app.core.security import get_current_user
 
 app = FastAPI(title=settings.app_name)
 
-# Configure CORS - Must be added BEFORE other middleware
+# Configure CORS
 cors_origins = [o.strip() for o in settings.cors_origins.split(",") if o.strip()]
-if settings.app_env != "production":
-    # Add common local dev origins
-    if "http://localhost:5173" not in cors_origins:
-        cors_origins.append("http://localhost:5173")
-    if "http://localhost:3000" not in cors_origins:
-        cors_origins.append("http://localhost:3000")
+
+# Add Vercel and local origins explicitly
+extra_origins = [
+    "https://ai-learning-assistant-zeta-five.vercel.app",
+    "http://localhost:5173",
+    "http://localhost:3000"
+]
+for origin in extra_origins:
+    if origin not in cors_origins:
+        cors_origins.append(origin)
 
 app.add_middleware(
     CORSMiddleware,
