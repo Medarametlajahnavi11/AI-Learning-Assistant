@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field, field_validator
 
 from app.app.utils.enums import EXPLANATION_STYLES, LEARNING_LEVELS, LEARNING_MODES
 
@@ -12,6 +12,7 @@ class SignUpStep1(BaseModel):
 class SignUpStep2(BaseModel):
     learning_level: str
 
+    @field_validator("learning_level")
     @classmethod
     def validate_level(cls, value: str) -> str:
         if value not in LEARNING_LEVELS:
