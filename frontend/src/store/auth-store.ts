@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { clearAuthTokens, getAccessToken, getRefreshToken, setAuthTokens } from "@/lib/auth";
 
 type UserProfile = {
   user_id: string;
@@ -14,26 +15,24 @@ type UserProfile = {
 
 type AuthState = {
   token: string | null;
+  refreshToken: string | null;
   user: UserProfile | null;
-  setToken: (token: string | null) => void;
+  setToken: (token: string | null, refreshToken: string | null) => void;
   setUser: (user: UserProfile | null) => void;
   logout: () => void;
 };
 
 export const useAuthStore = create<AuthState>((set) => ({
-  token: localStorage.getItem("access_token"),
+  token: getAccessToken(),
+  refreshToken: getRefreshToken(),
   user: null,
-  setToken: (token) => {
-    if (token) {
-      localStorage.setItem("access_token", token);
-    } else {
-      localStorage.removeItem("access_token");
-    }
-    set({ token });
+  setToken: (token, refreshToken) => {
+    setAuthTokens(token, refreshToken);
+    set({ token, refreshToken });
   },
   setUser: (user) => set({ user }),
   logout: () => {
-    localStorage.removeItem("access_token");
-    set({ token: null, user: null });
+    clearAuthTokens();
+    set({ token: null, refreshToken: null, user: null });
   },
 }));

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, status
 
-from app.app.schemas.auth import AuthResponse, LoginPayload, SignUpPayload
+from app.app.schemas.auth import AuthResponse, LoginPayload, RefreshPayload, SignUpPayload
 from app.app.services.auth.auth_service import AuthService
 
 router = APIRouter(prefix="/auth", tags=["auth"])
@@ -49,3 +49,19 @@ async def login(payload: LoginPayload) -> AuthResponse:
         )
     except Exception as exc:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=str(exc)) from exc
+
+
+@router.post("/refresh", response_model=AuthResponse)
+async def refresh(payload: RefreshPayload) -> AuthResponse:
+    try:
+        auth_data = service.refresh_session(payload.refresh_token)
+        return AuthResponse(
+            user_id=auth_data["user_id"],
+            access_token=auth_data["access_token"],
+            refresh_token=auth_data["refresh_token"],
+        )
+    except Exception as exc:
+        print(f"Refresh error details: {str(exc)}")
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unable to refresh auth token") from exc

@@ -4,6 +4,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 import { api } from "@/lib/api";
+import { clearAuthTokens } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
 
 const subjects = ["Mathematics", "Physics", "Chemistry", "Biology", "Programming", "Economics", "Business", "History", "Geography"];
@@ -38,12 +39,17 @@ export function ChatPage() {
 
     setStreaming(true);
     try {
+      const accessToken = localStorage.getItem("access_token");
+      const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+      };
+      if (accessToken) {
+        headers.Authorization = `Bearer ${accessToken}`;
+      }
+
       const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/chat/stream`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
+        headers,
         body: JSON.stringify({
           conversation_id: conversationId,
           message,
@@ -53,6 +59,16 @@ export function ChatPage() {
           learning_mode: learningMode,
         }),
       });
+
+      if (res.status === 401) {
+        clearAuthTokens();
+        window.location.replace("/login");
+        return;
+      }
+
+      if (!res.ok) {
+        throw new Error("Chat request failed");
+      }
 
       if (!res.body) throw new Error("Missing stream body");
       const reader = res.body.getReader();

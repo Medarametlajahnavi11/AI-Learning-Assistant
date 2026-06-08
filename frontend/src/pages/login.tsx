@@ -19,7 +19,7 @@ export function LoginPage() {
     setLoading(true);
     try {
       const { data } = await api.post("/api/v1/auth/login", { email, password });
-      setToken(data.access_token);
+      setToken(data.access_token, data.refresh_token);
       toast.success("Welcome back");
       navigate("/dashboard");
     } catch {

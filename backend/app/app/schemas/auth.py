@@ -12,13 +12,6 @@ class SignUpStep1(BaseModel):
 class SignUpStep2(BaseModel):
     learning_level: str
 
-    @field_validator("learning_level")
-    @classmethod
-    def validate_level(cls, value: str) -> str:
-        if value not in LEARNING_LEVELS:
-            raise ValueError("Invalid learning level")
-        return value
-
 
 class SignUpStep3(BaseModel):
     subjects: list[str]
@@ -43,6 +36,10 @@ class AuthResponse(BaseModel):
     token_type: str = "bearer"
     user_id: str
     requires_confirmation: bool = False
+
+
+class RefreshPayload(BaseModel):
+    refresh_token: str
 
 
 class PreferencesUpdatePayload(BaseModel):

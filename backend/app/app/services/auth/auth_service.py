@@ -67,3 +67,24 @@ class AuthService:
             # Even if DB profile fails, the auth user is created. 
             # We don't want to swallow the error but we need to know why.
             raise e
+
+    def refresh_session(self, refresh_token: str) -> dict:
+        try:
+            response = self.public_client.auth.refresh_session(refresh_token)
+            session = response.session
+            if not session or not session.access_token or not session.refresh_token:
+                raise RuntimeError("Unable to refresh session")
+
+            user_id = None
+            user = getattr(session, "user", None)
+            if user is not None:
+                user_id = getattr(user, "id", None)
+
+            return {
+                "user_id": user_id or "",
+                "access_token": session.access_token,
+                "refresh_token": session.refresh_token,
+            }
+        except Exception as e:
+            print(f"Error refreshing session: {str(e)}")
+            raise e

@@ -44,7 +44,7 @@ export function SignupPage() {
         toast.success("Account created! Please check your email to confirm your account.");
         navigate("/login");
       } else {
-        setToken(data.access_token);
+        setToken(data.access_token, data.refresh_token);
         toast.success("Account created");
         navigate("/dashboard");
       }
